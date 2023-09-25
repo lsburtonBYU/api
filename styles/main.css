@@ -1,0 +1,69 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  font-family: "Inter", sans-serif;
+  background-color: #bbb;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+h1 {
+  margin: 0;
+  color: white;
+  padding: 1rem;
+}
+
+.currentWeather {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2rem 1rem 1rem;
+  border-radius: 8px;
+  background: #ddd radial-gradient(at top right, #fff, #3f94e8 60%);
+}
+
+.currentWeather p {
+  font-weight: 200;
+  margin: 0 0 0.5rem;
+  padding: 0 1rem 0.5rem;
+}
+
+svg {
+  width: 200px;
+  height: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.currentWeather .date {
+  font-size: 2em;
+}
+
+.currentWeather .date,
+.currentWeather .location,
+.currentWeather .time {
+  grid-column: 1 / span 2;
+}
+
+.currentWeather .time {
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.currentWeather .temp {
+  font-size: 5em;
+  font-weight: 400;
+  text-align: center;
+  align-self: center;
+}
+
+.icons {
+  display: grid;
+}

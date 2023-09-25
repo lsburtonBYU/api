@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <script src="scripts/app.js" defer></script>
+</head>
+
+<body>
+  <main>
+    <h1>NWS data</h1>
+    <div class="currentWeather"></div>
+  </main>
+
+
+
+  <!-- adapted from weatherful icons by Rasmus Nielsen https://www.iconfinder.com/rasmusnielsendk -->
+  <svg class="hidden">
+    <symbol id="wind" viewBox="0 0 57.587 57.587">
+      <path d="M33.128 15.619a3.293 3.293 0 1 1 0 6.585H12.875" fill="none" stroke="#83b3cb" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="4" />
+      <path d="M41.923 19.381a4.895 4.895 0 0 1 0 9.79H30.389" fill="none" stroke="#9fa6b7" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="4" />
+      <path d="M33.128 42.406a3.293 3.293 0 1 0 0-6.585H12.875" fill="none" stroke="#615c9a" stroke-linecap="round"
+        stroke-linejoin="round" stroke-width="4" />
+      <path fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+        d="M23.02 29.167h-6.614" />
+    </symbol>
+    <symbol id="mostly-clear" viewBox="0 0 57.587 57.587">
+      <circle cx="28.398" cy="28.696" fill="#f5ce42" r="16.948" />
+    </symbol>
+    <symbol id="clear" viewBox="0 0 57.587 57.587">
+      <circle cx="28.398" cy="28.696" fill="#f5ce42" r="16.948" />
+    </symbol>
+    <symbol id="snowflake" viewBox="0 0 57.587 57.587">
+      <g fill="none" stroke="#83b3cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+        <path d="M28.793 13.018v31.55M33.946 16.502l-5.153
+      5.153-5.152-5.153M23.641 41.084l5.152-5.152 5.153
+      5.152M13.018 28.793h31.55" />
+        <g>
+          <path d="m16.502 23.641 5.153 5.152-5.153 5.153M41.084
+          33.946l-5.152-5.153 5.152-5.152" />
+        </g>
+      </g>
+    </symbol>
+
+    <symbol id="cloud-snowflake" viewBox="0 0 57.587 57.587">
+      <g>
+        <path d="M35.272,36.784A12.292,12.292,0,1,0,23.46,21.125a8.582,8.582,0,1,0-4.854,15.659Z" fill="#b9d8e8" />
+        <g>
+          <line fill="none" stroke="#007a9d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="36.083"
+            x2="36.083" y1="28.32" y2="45.385" />
+          <g>
+            <polyline fill="none" points="38.87 30.204 36.083 32.991 33.296
+                  30.204" stroke="#007a9d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+            <polyline fill="none" points="33.296 43.501 36.083 40.714 38.87
+                    43.501" stroke="#007a9d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+          </g>
+          <line fill="none" stroke="#007a9d" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="27.551"
+            x2="44.616" y1="36.853" y2="36.853" />
+          <g>
+            <polyline fill="none" points="29.435 34.066 32.222 36.853
+                        29.435 39.64" stroke="#007a9d" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2" />
+            <polyline fill="none" points="42.732 39.64 39.945 36.853
+                          42.732 34.066" stroke="#007a9d" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2" />
+          </g>
+        </g>
+      </g>
+    </symbol>
+    <symbol id="cloud-snow" viewBox="0 0 57.587
+                    57.587">
+      <path d="M33.771 35.56A12.292 12.292 0 1 0
+                      21.959 19.9a8.582 8.582 0 1 0-4.853
+                      15.66Z" fill="#b9d8e8" />
+      <circle cx="19.937" cy="34.857" fill="#615c9a" r="2.132" />
+      <circle cx="24.337" cy="43.589" fill="#007a9d" r="2.132" />
+      <circle cx="28.738" cy="34.344" fill="#9fa6b7" r="2.132" />
+      <circle cx="35.752" cy="39.089" fill="#83b3cb" r="2.132" />
+    </symbol>
+    <symbol id="rain-sun" viewBox="0 0
+                              57.587 57.587">
+      <g>
+        <circle cx="24.791" cy="22.025" fill="#f5ce42" r="14.185" />
+        <path d="M35.272,41.063A12.292,12.292,0,1,0,23.46,25.4a8.582,8.582,0,1,0-4.854,15.659Z" fill="#b9d8e8" />
+        <g>
+          <path d="M35.233,44.118V37.056" fill="none" stroke="#83b3cb" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="4" />
+          <path d="M24.071,49.747V45.725" fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="4" />
+          <path d="M19.617,40.9V37.056" fill="none" stroke="#615c9a" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="4" />
+          <line fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" x1="28.271"
+            x2="28.271" y1="39.362" y2="37.056" />
+        </g>
+      </g>
+    </symbol>
+    <symbol id="rain-cloud" viewBox="0 0 57.587
+                                          57.587">
+      <path d="M35.25,36.834A12.292,12.292,0,1,0,23.438,21.175a8.582,8.582,0,1,0-4.853,15.659Z" fill="#b9d8e8" />
+      <g>
+        <path d="M37.208,41.516V34.454" fill="none" stroke="#83b3cb" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="4" />
+        <path d="M26.045,47.145V43.123" fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="4" />
+        <path d="M21.591,38.3V34.454" fill="none" stroke="#615c9a" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="4" />
+        <line fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" x1="30.245"
+          x2="30.245" y1="36.76" y2="34.454" />
+      </g>
+    </symbol>
+    <symbol id="cloud-rain-moon" viewBox="0
+                                                    0 57.587
+                                                    57.587">
+      <g>
+        <g>
+          <path
+            d="M22.682,9.448A11.429,11.429,0,0,1,8.829,20.628a11.436,11.436,0,1,0,13.539-13.8A11.455,11.455,0,0,1,22.682,9.448Z"
+            fill="#7269af" />
+          <path d="M36.466,40.671A12.292,12.292,0,1,0,24.654,25.012,8.582,8.582,0,1,0,19.8,40.671Z" fill="#b9d8e8" />
+        </g>
+        <g>
+          <path d="M37.056,45.133V38.071" fill="none" stroke="#83b3cb" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="4" />
+          <path d="M25.894,50.762V46.74" fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="4" />
+          <path d="M21.44,41.918V38.071" fill="none" stroke="#615c9a" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="4" />
+          <line fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" x1="30.094"
+            x2="30.094" y1="40.377" y2="38.071" />
+        </g>
+      </g>
+    </symbol>
+    <symbol id="moon" viewBox="0
+                                                                0
+                                                                57.587
+                                                                57.587">
+      <path
+        d="M41.446,32.535A16.647,16.647,0,0,1,25.163,12.361a16.655,16.655,0,1,0,20.1,19.717A16.7,16.7,0,0,1,41.446,32.535Z"
+        fill="#7269af" />
+    </symbol>
+    <symbol id="lightening" viewBox="0
+                                                                  0
+                                                                  57.587
+                                                                  57.587">
+      <polygon fill="#d86837" points="32.468
+                                                                    11.421
+                                                                    14.996
+                                                                    31.098
+                                                                    25.566
+                                                                    31.222
+                                                                    21.677
+                                                                    46.443
+                                                                    40.508
+                                                                    26.496
+                                                                    28.799
+                                                                    26.496
+                                                                    32.468
+                                                                    11.421" />
+    </symbol>
+    <symbol id="cloud-lightening" viewBox="0
+                                                                    0
+                                                                    57.587
+                                                                    57.587">
+      <g>
+        <path d="M35.272,35.883A12.291,12.291,0,1,0,23.46,20.224a8.582,8.582,0,1,0-4.854,15.659Z" fill="#b9d8e8" />
+        <polygon fill="#d86837" points="31.256
+                                                                          28.003
+                                                                          22.134
+                                                                          38.275
+                                                                          27.652
+                                                                          38.34
+                                                                          25.622
+                                                                          46.286
+                                                                          35.452
+                                                                          35.873
+                                                                          29.34
+                                                                          35.873
+                                                                          31.256
+                                                                          28.003" />
+      </g>
+    </symbol>
+    <symbol id="fog" viewBox="0
+                                                                        0
+                                                                        57.587
+                                                                        57.587">
+      <g>
+        <path d="M34.734,25.161h-21" fill="none" stroke="#83b3cb" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="4" />
+        <path d="M43.734,18.809h-21" fill="none" stroke="#b6d4e3" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="4" />
+        <path d="M43.853,32.128H31.893" fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="4" />
+        <path d="M34.734,38.778h-21" fill="none" stroke="#615c9a" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="4" />
+        <line fill="none" stroke="#9fa6b7" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" x1="24.252"
+          x2="17.394" y1="32.124" y2="32.124" />
+      </g>
+    </symbol>
+    <symbol id="light-rain" viewBox="0
+                                                                                  0
+                                                                                  57.587
+                                                                                  57.587">
+      <g>
+        <path d="M35.272,38.536A12.291,12.291,0,1,0,23.46,22.877a8.582,8.582,0,1,0-4.854,15.659Z" fill="#fff" />
+        <path
+          d="M31.419,38.028A24.388,24.388,0,0,0,29.1,35.036a24.344,24.344,0,0,0-2.317,2.992,5.112,5.112,0,0,0-.946,2.342,3.263,3.263,0,0,0,6.526,0A5.1,5.1,0,0,0,31.419,38.028Z"
+          fill="#888" />
+      </g>
+    </symbol>
+    <symbol id="mostly-cloudy" viewBox="0
+                                                                                      0
+                                                                                      57.587
+                                                                                      57.587">
+      <path d="M35.272,41.085A12.292,12.292,0,1,0,23.46,25.426a8.582,8.582,0,1,0-4.854,15.659Z" fill="#fff" />
+    </symbol>
+    <symbol id="partly-cloudy" viewBox="0
+                                                                                        0
+                                                                                        57.587
+                                                                                        57.587">
+      <g>
+        <circle cx="24.791" cy="26.367" fill="#f5ce42" r="14.185" />
+        <path d="M35.272,45.405A12.292,12.292,0,1,0,23.46,29.746a8.582,8.582,0,1,0-4.854,15.659Z" fill="#fff" />
+      </g>
+    </symbol>
+    <symbol id="cloud-moon" viewBox="0
+                                                                                            0
+                                                                                            57.587
+                                                                                            57.587">
+      <g>
+        <path
+          d="M22.682,14.493A11.429,11.429,0,0,1,8.829,25.674a11.436,11.436,0,1,0,13.539-13.8A11.455,11.455,0,0,1,22.682,14.493Z"
+          fill="#7269af" />
+        <path d="M36.466,45.716A12.291,12.291,0,1,0,24.654,30.057,8.582,8.582,0,1,0,19.8,45.716Z" fill="#b9d8e8" />
+      </g>
+    </symbol>
+  </svg>
+</body>
+
+</html>
